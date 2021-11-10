@@ -2,7 +2,7 @@ const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController.js')
 
-module.exports = app => {
+module.exports = (app, passport) => {
   // 前台
   //如果使用者訪問首頁，就導向 /restaurants 的頁面
   app.get('/', (req, res) => res.redirect('/restaurants'))
@@ -20,4 +20,7 @@ module.exports = app => {
   // user
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
+  app.get('/signin', userController.signInPage)
+  app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
+  app.get('/logout', userController.logout)
 }
