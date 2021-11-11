@@ -30,8 +30,10 @@ module.exports = (app, passport) => {
 
   // 在 /admin/restaurants 底下則交給 adminController.getRestaurants 處理
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
-
+  // 新增餐廳頁面
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
+  // 送出新增餐廳
+  app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
 
   // user
   app.get('/signup', userController.signUpPage)
