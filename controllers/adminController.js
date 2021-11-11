@@ -30,13 +30,19 @@ const adminController = {
         res.redirect('/admin/restaurants')
       })
   },
-  // 瀏覽特定餐廳
+  // 瀏覽一筆餐廳
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => {
       return res.render('admin/restaurant', {
         restaurant: restaurant
       })
     })
-  }
+  },
+  // 編輯(更新)一筆餐廳
+  editRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => {
+      return res.render('admin/create', { restaurant: restaurant })
+    })
+  },
 }
 module.exports = adminController

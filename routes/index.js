@@ -32,8 +32,10 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
   // 送出新增餐廳
   app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
-  // 瀏覽特定餐廳
+  // 瀏覽一筆餐廳
   app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
+  // 編輯(更新)一筆餐廳
+  app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
 
   // user
   app.get('/signup', userController.signUpPage)
