@@ -46,6 +46,11 @@ module.exports = (app, passport) => {
   //刪除一筆餐廳
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
 
+  // 瀏覽user清單
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers )
+  // 修改user權限
+  app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
+
   // user
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
