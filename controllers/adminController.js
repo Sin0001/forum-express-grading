@@ -4,14 +4,15 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User // 載入User資料
+const Category = db.Category // 載入Category
 
 const adminController = {
   // 作業要求規格
   // 顯示使用者清單
   getUsers: (req, res) => {
     // 去user資料庫撈出所有users
-    return User.findAll({raw: true})
-    // 傳去admin/users渲染出來
+    return User.findAll({ raw: true })
+      // 傳去admin/users渲染出來
       .then(users => {
         return res.render('admin/users', { users })
       })
@@ -41,7 +42,12 @@ const adminController = {
 
   // 後台首頁
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ raw: true,}).then( restaurants => {
+    return Restaurant.findAll({
+      raw: true,
+      nest: true,
+      include: [Category]
+    }).then(restaurants => {
+      //console.log(restaurants) 用來查看restaurant回傳哪些東西給我
       return res.render('admin/restaurants', { restaurants: restaurants })
     })
   },
