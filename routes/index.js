@@ -52,6 +52,8 @@ module.exports = (app, passport) => {
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
   // 瀏覽categories頁面
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+  // 送出新增category
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 
   // user
   app.get('/signup', userController.signUpPage)
