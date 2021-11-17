@@ -6,6 +6,7 @@ const helpers = require('../_helpers')
 const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController.js')
+const categoryController = require('../controllers/categoryController.js')
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -45,11 +46,12 @@ module.exports = (app, passport) => {
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   //刪除一筆餐廳
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
-
   // 瀏覽user清單
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers )
   // 修改user權限
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
+  // 瀏覽categories頁面
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 
   // user
   app.get('/signup', userController.signUpPage)
