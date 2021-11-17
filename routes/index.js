@@ -35,6 +35,8 @@ module.exports = (app, passport) => {
   // 留言
   // 送出一筆留言
   app.post('/comments', authenticated, commentController.postComment)
+  // 刪除一筆留言 (only admin can do )
+  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
   // 後台
   // 連到 /admin 頁面就轉到 /admin/restaurants
