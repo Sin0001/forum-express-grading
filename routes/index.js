@@ -76,4 +76,10 @@ module.exports = (app, passport) => {
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
+  // 瀏覽profile頁面
+  app.get('/users/:id', authenticated, userController.getUser)
+  // 瀏覽編輯profile頁面
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  // 送出修改profile
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 }

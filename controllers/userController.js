@@ -1,5 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+
 const User = db.User
 
 const userController = {
@@ -31,6 +34,7 @@ const userController = {
       })
     }
   } ,
+
   signInPage: (req, res) => {
     return res.render('signin')
   },
@@ -44,7 +48,66 @@ const userController = {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
-  }
+  },
+
+  getUser: (req, res) => {
+    //到User裡撈出此user的資料
+    //傳到profile前端樣板
+    return User.findByPk(req.params.id)
+      .then( user => {
+        //console.log(user)
+        res.render('profile', {user: user.toJSON()})
+      })
+  },
+
+  editUser: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then(user => {
+        res.render('edit', { user: user.toJSON()})
+      })
+  },
+
+  putUser: (req, res) => {
+    // 檢查名字欄位有無輸入
+    // 帶入imgur相關code
+    // 更新user資料
+    if (!req.body.name) {
+      req.flash('error_messages', '使用者名稱為必填！')
+      return res.redirect('back')
+    }
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id)
+          .then(user => {
+            user.update({
+              name: req.body.name,
+              email: req.body.email,
+              image: file ? img.data.link : restaurant.image,
+            })
+              .then(() => {
+                req.flash('success_messages', '使用者資料編輯成功')
+                return res.redirect(`/users/${req.params.id}`)
+              })
+          })
+      })
+    }
+    else {
+      return User.findByPk(req.params.id)
+        .then(user => {
+          user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: user.image,
+          })
+            .then(() => {
+              req.flash('success_messages', '使用者資料編輯成功')
+              return res.redirect(`/users/${req.params.id}`)
+            })
+        })
+    }
+  },
 }
 
 module.exports = userController
