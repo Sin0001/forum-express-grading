@@ -8,9 +8,25 @@
   <div id="user-info" class="ml-5">
     <h3>{{user.name}}</h3>
     <h4>{{user.email}}</h4>
+    <p>{{user.Comments.length}} 已評論餐廳</p>
     <a href="/users/{{user.id}}/edit">
       <button type="button" class="btn btn-primary">Edit</button>
     </a>
+  </div>
+</div>
+
+<div class="card mt-5">
+  <div class="card-header" style="text-align: left;">
+    {{user.Comments.length}} 已評論餐廳
+  </div>
+  <div class="card-body row">
+    {{#each user.Comments}}
+    <div class="card-body" style="width: 14rem;">
+      <a href="/restaurants/{{this.RestaurantId}}">
+        <img class="card-img-top" src="{{this.Restaurant.image}}" alt="Card image cap">
+      </a>
+    </div>
+    {{/each}}
   </div>
 </div>
 

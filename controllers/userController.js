@@ -4,6 +4,9 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const User = db.User
+const Comment = db.Comment
+const Restaurant = db.Restaurant
+
 
 const userController = {
   signUpPage: (req, res) => {
@@ -51,13 +54,13 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    //到User裡撈出此user的資料
-    //傳到profile前端樣板
-    return User.findByPk(req.params.id)
-      .then( user => {
-        //console.log(user)
-        res.render('profile', {user: user.toJSON()})
-      })
+    return User.findByPk(req.params.id , {
+      nest: true,
+      include: [{ model: Comment, include:[Restaurant]}]
+    })
+    .then(user => {
+      res.render('profile', { user: user.toJSON() })
+    })
   },
 
   editUser: (req, res) => {
@@ -68,9 +71,6 @@ const userController = {
   },
 
   putUser: (req, res) => {
-    // 檢查名字欄位有無輸入
-    // 帶入imgur相關code
-    // 更新user資料
     if (!req.body.name) {
       req.flash('error_messages', '使用者名稱為必填！')
       return res.redirect('back')
