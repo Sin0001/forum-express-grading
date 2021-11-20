@@ -94,6 +94,22 @@ const restController = {
     })
   },
 
+  // 瀏覽dashboard
+  getDashBoard: (req, res) => {
+    // 用id找出user
+    // 關聯 Caregory , Comment , User
+    // 傳去dashboard ( 評論數帶 restaurant.Comments.length)
+    return Restaurant.findByPk(req.params.id ,{
+      include: [
+        Category, {model: Comment, include: [User]}
+      ]
+    })
+    .then( restaurant => {
+      //console.log(restaurant)
+      return res.render('dashboard', {restaurant: restaurant.toJSON()})
+    })
+  },
+
 }
 
 module.exports = restController
