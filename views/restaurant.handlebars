@@ -16,16 +16,30 @@
   <div class="col-md-8">
     <p>{{restaurant.description}}</p>
     {{!-- 新稱dashboard按鈕 --}}
-    <div class="">
+    <div class="d-flex justify-content-around mt-5">
       <a href="/restaurants/{{restaurant.id}}/dashboard">
         <button type="submit" class="btn btn-primary">Dashboard</button>
       </a>
+      {{!-- Notice: add favorite and removeFavorite button here --}}
       {{#if isFavorited }}
       <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit"
-          class="btn btn-danger">移除最愛</button></form>
+          class="btn btn-danger">移除最愛</button>
+          </form>
       {{else}}
-      <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;"><button type="submit"
-          class="btn btn-primary">加到最愛</button></form>
+      <form action="/favorite/{{restaurant.id}}" method="POST" style="display: contents;">
+      <button type="submit" class="btn btn-primary">加到最愛</button>
+          </form>
+      {{/if}}
+
+      {{!-- Notice: add like and unlike button here --}}
+      {{#if isLiked }}
+      <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-danger">unLike</button>
+      </form>
+      {{else}}
+      <form action="/like/{{restaurant.id}}" method="POST">
+        <button type="submit" class="btn btn-primary">Like</button>
+      </form>
       {{/if}}
     </div>
   </div>

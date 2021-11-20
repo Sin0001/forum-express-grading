@@ -90,4 +90,8 @@ module.exports = (app, passport) => {
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   // 移除我的最愛
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+  // like this restaurant
+  app.post('/like/:restaurantId', authenticated, userController.addLike)
+  // unlike this restaurant
+  app.delete('/like/:restaurantId', authenticated, userController.removeLike)
 }
