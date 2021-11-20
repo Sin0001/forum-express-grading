@@ -80,6 +80,8 @@ module.exports = (app, passport) => {
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
+  // 瀏覽 top10 users
+  app.get('/users/top', authenticated, userController.getTopUser)
   // 瀏覽profile頁面
   app.get('/users/:id', authenticated, userController.getUser)
   // 瀏覽編輯profile頁面
