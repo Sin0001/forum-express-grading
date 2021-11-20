@@ -63,6 +63,7 @@ const restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
+      restaurant.increment('viewCounts')
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })
@@ -96,12 +97,14 @@ const restController = {
 
   // 瀏覽dashboard
   getDashBoard: (req, res) => {
+    // Notice: 
     // 用id找出user
-    // 關聯 Caregory , Comment , User
+    // 關聯 Category , Comment , User
     // 傳去dashboard ( 評論數帶 restaurant.Comments.length)
     return Restaurant.findByPk(req.params.id ,{
       include: [
-        Category, {model: Comment, include: [User]}
+        Category, 
+        {model: Comment, include: [User]}
       ]
     })
     .then( restaurant => {
