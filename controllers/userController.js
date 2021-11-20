@@ -126,18 +126,20 @@ const userController = {
 
   // 移除我的最愛
   removeFavorite: (req, res) => {
-    return Favorite.findOne({
+    return Favorite.destroy({
       where: {
+        //UserId: helpers.getUser(req).id,
         UserId: req.user.id,
         RestaurantId: req.params.restaurantId
       }
     })
-      .then((favorite) => {
-        favorite.destroy()
-          .then((restaurant) => {
+      .then( favorite => {
+        //console.log('==============')
+        //console.log('helpers.getUser(req).id: ', helpers.getUser(req).id)
+        //console.log('req.params.id: ', req.params.id)
+        //console.log('==============')
             return res.redirect('back')
           })
-      })
   },
 
   // like this restaurant
@@ -201,19 +203,17 @@ const userController = {
 
   // 取消追蹤這個user
   removeFollowing: (req, res) => {
-    return Followship.findOne({
+    return Followship.destroy({
       where: {
         followerId: req.user.id,
         followingId: req.params.userId
       }
     })
       .then((followship) => {
-        followship.destroy()
-          .then((followship) => {
-            return res.redirect('back')
-          })
+        return res.redirect('back')
       })
   }
 }
+
 
 module.exports = userController
