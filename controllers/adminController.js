@@ -5,6 +5,7 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User // 載入User資料
 const Category = db.Category // 載入Category
+const adminService = require('../services/adminService.js')
 
 const adminController = {
   // 作業要求規格
@@ -42,13 +43,8 @@ const adminController = {
 
   // 後台首頁
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({
-      raw: true,
-      nest: true,
-      include: [Category]
-    }).then(restaurants => {
-      //console.log(restaurants) 用來查看restaurant回傳哪些東西給我
-      return res.render('admin/restaurants', { restaurants: restaurants })
+    adminService.getRestaurants(req, res, (data) => {
+      return res.render('admin/restaurants', data)
     })
   },
   // 新增餐廳頁面
