@@ -20,6 +20,8 @@ const adminService = {
       callback({ restaurant: restaurant.toJSON() })
     })
   },
+
+  
 }
 
 module.exports = adminService
